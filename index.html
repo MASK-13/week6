@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Transporstation</title>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Transportation</h1>
+    <br>
+  <button data-transportation="trucks">TRUCKS</button>
+  <button data-transportation="cars">CARS</button>
+  <button data-transportation="airplanes">AIRPLANES</button>
+  <button data-transportation="bikes">BIKES</button>
+  <button data-transportation="motorcycles">MOTOS</button>
+
+  <br>
+  <div id ="gifs-10-gifs">
+  </div>
+
+     <div id="buttons-view"></div>
+
+    <form id="transportation-form">
+      <label for="transportation-input">TRANSPORTATION</label>
+      <input type="text" id="transportat-input">
+      <br>
+
+      <input id="TRANSPORTATION" type="submit" value="look for transportation">
+    </form>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+
+
+  //ADDS LISTEN listener to buttons and grabs the transportation values from the click button.
+
+    $("button").on("click" , function(){
+      var transportation = $(this).attr("data-transportation");  
+
+  //Query by type of trnasportations and  API KEY 
+    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + transportation + "&api_key=buuNRLaaee092WnoIlKZegdpaO1ORbUI&limit=10";
+
+ //AJAX and queryURL request
+    $.ajax({
+      url: queryURL,
+      method:"GET"
+    })
+
+    .done(function(response) {
+          console.log(queryURL);
+          console.log(response);
+
+    var results = response.data;
+
+    for (var i = 0; i < results.length; i++) {
+      var transportationDiv = $("<div>");
+
+      var p = $("<p>").text("Rating: " + results[i].rating);
+      var transportationImage = $("<img>");
+      transportationImage.attr("src", results[i].images.fixed_height.url);
+
+      transportationDiv.append(p);
+      transportationDiv.append(transportationImage);
+    
+      //SHOWS the DIV gifs-10-gifs
+      $("#gifs-10-gifs").prepend(transportationDiv);
+    }
+  });
+});
+</script>
+
+
+</body>
+
+</html>
+
